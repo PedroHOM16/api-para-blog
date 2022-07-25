@@ -1,27 +1,28 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface, DataTypes) => {
     await queryInterface.createTable('BlogPosts', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       title: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         field: 'title',
       },
       content: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         field: 'content',
       },
       // FOREING KEY
       userId: {
-        type: Sequelize.INTEGER,
+        allowNull: false,
+        type: DataTypes.INTEGER,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
         references: {
@@ -31,12 +32,12 @@ module.exports = {
       },
       published: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'published',
       },
       updated: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         field: 'updated',
       }
     })
