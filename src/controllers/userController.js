@@ -16,8 +16,18 @@ const addUser = async (req, res) => {
 const listAll = async (_req, res) => {
   try {
     const users = await userService.findAll();
-    // console.log('1controlerLog: ', users);
     return res.status(200).json(users);
+  } catch (err) {
+    return res.status(err.status).json({ message: err.warning });
+  }
+};
+
+const listById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await userService.findById(id);
+    console.log('1controlerLog: ', user);
+    return res.status(200).json(user);
   } catch (err) {
     return res.status(err.status).json({ message: err.warning });
   }
@@ -26,6 +36,7 @@ const listAll = async (_req, res) => {
 module.exports = {
   addUser,
   listAll,
+  listById,
 };
 
 // requisiçao da route:

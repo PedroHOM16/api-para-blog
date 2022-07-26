@@ -12,7 +12,6 @@ const validToken = (token) => {
   if (!token) return throwingError(401, 'Token not found');
   try {
     const { data } = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('serviceJWTlog: ', data);
     return data;
   } catch (err) {
     throwingError(401, 'Expired or invalid token');      

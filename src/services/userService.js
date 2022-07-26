@@ -23,8 +23,17 @@ const findAll = async () => {
   });
   const response = [];
   users.map((user) => response.push(user.dataValues));
-  console.log('serviceLog: ', response);
   return response;
+};
+
+const findById = async (id) => {
+  const data = await models.User.findByPk(id, {
+    attributes: { exclude: ['password'] } });
+    console.log('serviceLog: ', data);
+  if (!data) {
+    throwingError(404, 'User does not exist');
+  }
+  return data;
 };
 
 const fieldsValidation = async (obj) => {
@@ -50,4 +59,5 @@ module.exports = {
   userCreate,
   fieldsValidation,
   findAll,
+  findById,
 };

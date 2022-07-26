@@ -10,5 +10,6 @@ user.post('/', userController.addUser);
 // user.use(tokenCheck);
 
 user.get('/', tokenCheck, userController.listAll);
+user.get('/:id', tokenCheck, userController.listById);
 
 module.exports = user;
