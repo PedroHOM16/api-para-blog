@@ -39,15 +39,15 @@ const attributes = {
   };
 
 module.exports = (sequelize) => {
-  const userModel = sequelize.define('BlogPost',
+  const blogPostModel = sequelize.define('BlogPost',
     attributes, {
       underscored: true,
       tableName: "BlogPosts",
       timestamps: false,
     });
-  userModel.associate = (models) => {
-    userModel.belongsTo(models.User, {
+  blogPostModel.associate = (models) => {
+    blogPostModel.belongsTo(models.User, {
       foreignKey: 'userId'
     })}
-  return userModel;
+  return blogPostModel;
 }
