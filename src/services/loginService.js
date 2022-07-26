@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken');
 // const Joi = require('joi');
 const models = require('../database/models');
-require('dotenv').config();
+const { throwingError } = require('./middlewares');
 
 const validateEmail = async (email) => {
   // const { email } = obj;
@@ -10,14 +9,7 @@ const validateEmail = async (email) => {
     raw: true,
   });
   // const { password: pass, ...infos } = userValid;
-  console.log('servicelogin2 ', userValid);
   return userValid;
-};
-
-const makeToken = (userValid) => {
-  const payload = { data: userValid };
-  const token = jwt.sign(payload, process.env.JWT_SECRET);
-  return token;
 };
 
 const validateLogin = async (objReq) => {
@@ -27,31 +19,15 @@ const validateLogin = async (objReq) => {
   // });
   // const response = schema.validate(objResponse);
   const { email, password } = objReq;
-  if (!email || !password) {
-    const error = new Error();
-    error.status = 400;
-    error.warning = 'Some required fields are missing';
-    throw error;
-  }
+  if (!email || !password) { throwingError(400, 'Some required fields are missing'); }
   const userValid = await validateEmail(email);
   if (!userValid || userValid.password !== objReq.password) {
-    const error = new Error();
-    error.status = 400;
-    error.warning = 'Invalid fields';
-    throw error;
+    throwingError(400, 'Invalid fields');
   }
-  console.log('servicelogin ', userValid);
   return userValid;
 };
 
-const findToken = (token) => {
-  const { data } = jwt.verify(token, process.env.JWT_SECRET);
-  return data;
-};
-
 module.exports = {
-  makeToken,
-  findToken,
   validateLogin,
   validateEmail,
 };
