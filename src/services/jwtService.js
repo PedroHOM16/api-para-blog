@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { throwingError } = require('./middlewares');
 require('dotenv').config();
 
 const makeToken = (userValid) => {
@@ -7,12 +8,18 @@ const makeToken = (userValid) => {
   return token;
 };
 
-const findToken = (token) => {
-  const { data } = jwt.verify(token, process.env.JWT_SECRET);
-  return data;
+const validToken = (token) => {
+  if (!token) return throwingError(401, 'Token not found');
+  try {
+    const { data } = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('serviceJWTlog: ', data);
+    return data;
+  } catch (err) {
+    throwingError(401, 'Expired or invalid token');      
+  }
 };
 
 module.exports = {
   makeToken,
-  findToken,
+  validToken,
 };

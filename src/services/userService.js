@@ -13,9 +13,18 @@ const findUser = async (email) => {
     where: { email },
     raw: true,
   });
-  console.log('serviceLog: ', findedUser);
   if (!findedUser) return false;
   return true;
+};
+
+const findAll = async () => {
+  const users = await models.User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  const response = [];
+  users.map((user) => response.push(user.dataValues));
+  console.log('serviceLog: ', response);
+  return response;
 };
 
 const fieldsValidation = async (obj) => {
@@ -40,4 +49,5 @@ const fieldsValidation = async (obj) => {
 module.exports = {
   userCreate,
   fieldsValidation,
+  findAll,
 };

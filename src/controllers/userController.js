@@ -3,7 +3,6 @@ const userService = require('../services/userService');
 
 const addUser = async (req, res) => {
   try {
-    console.log('1controlerLog: ', req.body);
     const data = await userService.fieldsValidation(req.body);
     const newUser = await userService.userCreate(data);
     delete newUser.password;
@@ -14,8 +13,19 @@ const addUser = async (req, res) => {
   }
 };
 
+const listAll = async (_req, res) => {
+  try {
+    const users = await userService.findAll();
+    // console.log('1controlerLog: ', users);
+    return res.status(200).json(users);
+  } catch (err) {
+    return res.status(err.status).json({ message: err.warning });
+  }
+};
+
 module.exports = {
   addUser,
+  listAll,
 };
 
 // requisiçao da route:
