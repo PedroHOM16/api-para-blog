@@ -18,7 +18,13 @@ const validToken = (token) => {
   }
 };
 
+const decodeToken = (token) => {
+  const response = jwt.decode(token);
+  return response;
+};
+
 module.exports = {
   makeToken,
   validToken,
+  decodeToken,
 };
