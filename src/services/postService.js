@@ -39,7 +39,7 @@ const createPost = async ({ title, content, categoryIds, authorization }) => {
   const data = await models.BlogPost.create(newPost);
   console.log('service category: ', categoryIds, data);
   categoryIds.map(async (category) => (
-    models.PostCategory.bulkCreate({ postId: data.dataValues.id, categoryId: category })));
+    models.PostCategory.create({ postId: data.dataValues.id, categoryId: category })));
 
   return data;
 };
